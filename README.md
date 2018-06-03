@@ -12,10 +12,25 @@ Add a dependency to your `project.clj`.
 
 ## Example
 
-Following example gets a regression line for given input.
+Clojure idiomatic rewrite of linear regression example from [#getting-started](https://js.tensorflow.org/#getting-started).
 
 ```clojure
-(:require [tfjs-cljs.core :as tf])
+(let [model (models/sequential)]
+  (-> model
+      (models/add (layers/dense {:units 1, :inputShape [1]}))
+      (models/compile {:loss "meanSquaredError", :optimizer "sgd"}))
+
+  (let [xs (tf/tensor2d [1 2 3 4] [4 1])
+        ys (tf/tensor2d [1 3 5 7] [4 1])]
+    (.then (models/fit model xs ys)
+           #(.print (models/predict model (tf/tensor2d [5] [1 1]))))))
+```
+
+For memory management, `with-tidy` macro might come in handy.
+
+```clojure
+(:require [tfjs-cljs.core :as tf :refer-macros [defvar with-tidy]]
+          [tfjs-cljs.train :as train])
 
 ; y = a * x + b
 (defvar a (tf/scalar (q/random 1)))
@@ -28,14 +43,8 @@ Following example gets a regression line for given input.
 
 (defn solve [xs ys]
   (tf/with-tidy
-    (when-not (empty? xs)
-      (let [ys (tf/tensor1d ys)]
-        (train/minimize optimizer #(loss (predict xs) ys))))))
-
-(defn regression-line [xs]
-  (tf/with-tidy
-    (let [ys (predict xs)]
-      (.dataSync ys))))
+    (train/minimize optimizer
+                    #(loss (predict xs) ys))))
 ```
 
 
