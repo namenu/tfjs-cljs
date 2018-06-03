@@ -35,6 +35,11 @@
   ([values [x y z]]
    (.tensor3d js/tf (clj->js values) (array x y z))))
 
+(defn variable
+  "Creates a new variable with the provided initial value."
+  [initialValue]
+  (.variable js.tf initialValue))
+
 (defn zeros
   "Creates a tf.Tensor with all elements set to 0."
   [shape]
