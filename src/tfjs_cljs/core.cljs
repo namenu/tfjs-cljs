@@ -68,6 +68,13 @@
   (.zeros js/tf (clj->js shape)))
 
 
+;; Tensor
+
+(deftf data-sync)
+(deftf dispose)
+(deftf print)
+
+
 ;; OPERATIONS
 
 ;; Arithmetic
