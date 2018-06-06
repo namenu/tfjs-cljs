@@ -1,5 +1,6 @@
 (ns tfjs-cljs.core
-  (:require-macros [tfjs-cljs.macros :refer [deftf]]))
+  (:require-macros [tfjs-cljs.macros :refer [deftf]])
+  (:refer-clojure :exclude [print max min]))
 
 (def ^:private dtypes {:float32 "float32"
                        :int32 "int32"
@@ -70,10 +71,14 @@
 
 ;; Tensor
 
-(deftf data-sync)
+(defn data-sync
+  "Synchronously downloads the values from the tf.Tensor. This blocks the UI thread until the values are
+  ready, which can cause performance issues."
+  [tensor]
+  (array-seq (.dataSync tensor)))
+
 (deftf dispose)
 (deftf print)
-
 
 ;; OPERATIONS
 
@@ -123,3 +128,8 @@
 (deftf mean)
 (deftf min)
 (deftf sum)
+
+
+;;; Performance
+
+(deftf memory)
