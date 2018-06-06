@@ -9,6 +9,10 @@
          :c (t/variable (t/scalar (Math.random)))
          :d (t/variable (t/scalar (Math.random)))}))
 
+(def num-iterations 75)
+(def learning-rate 0.2)
+(defonce optimizer (train/sgd learning-rate))
+
 (defn predict [x]
   (with-tidy
     (let [ax3 (t/mul (:a @vars) (t/pow x 3) )
@@ -16,26 +20,15 @@
           cx  (t/mul (:c @vars) x)
           d   (:d @vars)]
       (-> ax3
-        (t/add bx2)
-        (t/add cx)
-        (t/add d)))))
+          (t/add bx2)
+          (t/add cx)
+          (t/add d)))))
 
 (defn loss [predictions labels]
   (let [mean-square-error (-> (t/sub predictions labels)
-                            (t/square)
-                            (t/mean))]
+                              (t/square)
+                              (t/mean))]
     mean-square-error))
-
-(def num-iterations 75)
-(def learning-rate 0.2)
-(defonce optimizer (train/sgd learning-rate))
-
-(defn train
-  [xs ys]
-  (let [f #(let [preds-ys (predict xs)]
-             (loss preds-ys ys))]
-    (dotimes [_ num-iterations]
-      (train/minimize optimizer f))))
 
 (defn generate-data
   ([num-points coeff]
@@ -46,36 +39,20 @@
 
            xs (t/random-uniform [num-points] -1 1)
            ys (-> (t/mul a (t/pow xs 3))
-                (t/add (t/mul b (t/square xs)))
-                (t/add (t/mul c xs))
-                (t/add d)
-                (t/add (t/random-normal [num-points] 0 sigma)))
+                  (t/add (t/mul b (t/square xs)))
+                  (t/add (t/mul c xs))
+                  (t/add d)
+                  (t/add (t/random-normal [num-points] 0 sigma)))
            ymin (t/min ys)
            ymax (t/max ys)
            yrange (t/sub ymax ymin)
 
            ys-normalized (-> ys
-                           (t/sub ymin)
-                           (t/div yrange))
+                             (t/sub ymin)
+                             (t/div yrange))
            ]
        {:xs xs
         :ys ys-normalized}))))
-
-(defn learn-coefficients [xs ys]
-
-  ; plot original data,,,
-
-  (map @vars t/data-sync)
-  (let [predictions-before (predict xs)]
-    ; plot before train
-    (t/dispose predictions-before))
-
-  (train xs ys)
-
-  (map @vars t/data-sync)
-  (let [predictions-after (predict xs)]
-    ; plot after train
-    (t/dispose predictions-after)))
 
 (defn setup! []
   (js/createCanvas 400 400)
@@ -83,8 +60,9 @@
   (let [true-coefficients [-0.8 -0.2 0.9 0.5]]
     (generate-data 100 true-coefficients)))
 
-(defn update! [{:keys [xs ys] :as state}]
-  (learn-coefficients xs ys)
+(defn fit [{:keys [xs ys] :as state}]
+  (dotimes [_ num-iterations]
+    (train/minimize optimizer #(loss (predict xs) ys)))
   state)
 
 (defn draw! [{:keys [xs ys]}]
@@ -120,7 +98,7 @@
 
 (p5/sketch state
   :setup setup!
-  :update update!
+  :update fit
   :draw draw!
   :mouse-pressed identity)
 
