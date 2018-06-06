@@ -11,3 +11,6 @@
   variables."
   [optimizer f]
   (.minimize optimizer f))
+
+
+(def losses (js->clj js/tf.losses :keywordize-keys true))
