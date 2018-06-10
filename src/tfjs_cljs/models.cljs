@@ -1,4 +1,5 @@
-(ns tfjs-cljs.models)
+(ns tfjs-cljs.models
+  (:require [cljsjs.tfjs]))
 
 (defn sequential
   "Creates a tf.Sequential model. A sequential model is any model where the outputs of one

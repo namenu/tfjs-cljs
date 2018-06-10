@@ -1,5 +1,6 @@
 (ns tfjs-cljs.layers
-  (:refer-clojure :exclude [flatten]))
+  (:refer-clojure :exclude [flatten])
+  (:require [cljsjs.tfjs]))
 
 
 ;; Basic

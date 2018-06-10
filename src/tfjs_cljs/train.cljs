@@ -1,4 +1,5 @@
-(ns tfjs-cljs.train)
+(ns tfjs-cljs.train
+  (:require [cljsjs.tfjs]))
 
 (defn sgd
   "Constructs a tf.SGDOptimizer that uses stochastic gradient descent."

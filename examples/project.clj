@@ -29,7 +29,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/examples.js"
                            :main examples.polynomial-regression-core
-                           :optimizations :simple
+                           :optimizations :advanced
                            :pretty-print false}}]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.9"]
