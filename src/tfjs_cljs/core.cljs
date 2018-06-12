@@ -70,6 +70,15 @@
   (.zeros js/tf (clj->js shape)))
 
 
+(defn reshape
+  "Reshapes a tf.Tensor to a given shape.
+
+  Given a input tensor, returns a new tensor with the same values as the input tensor with
+  shape shape."
+  [x shape]
+  (.reshape js/tf x (clj->js shape)))
+
+
 ;; Tensor
 
 (defn data-sync
@@ -134,3 +143,6 @@
 ;;; Performance
 
 (deftf memory)
+
+(defn next-frame []
+  (js/tf.nextFrame))

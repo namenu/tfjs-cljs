@@ -23,7 +23,8 @@
   the model with an optimizer, loss, and/or metrics. Calling fit or evaluate on an
   un-compiled model will throw an error."
   [model config]
-  (.compile model (clj->js config)))
+  (.compile model (clj->js config))
+  model)
 
 (defn predict
   "Generates output predictions for the input samples."
