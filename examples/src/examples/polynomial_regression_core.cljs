@@ -73,8 +73,8 @@
 
   ;; draw points
   (doseq [[x y] (map vector (t/data-sync xs) (t/data-sync ys))]
-    (let [px (examples.p5/map-range x -1 1 0 js/width)
-          py (examples.p5/map-range y 0 1 js/height 0)]
+    (let [px (p5/map-range x -1 1 0 js/width)
+          py (p5/map-range y 0 1 js/height 0)]
       (js/point px py)))
 
   ;; draw regression line
