@@ -1,6 +1,6 @@
 (ns tfjs-cljs.core
   (:require-macros [tfjs-cljs.macros :refer [deftf]])
-  (:refer-clojure :exclude [print max min])
+  (:refer-clojure :exclude [print max min get-in])
   (:require [cljsjs.tfjs]))
 
 (def ^:private dtypes {:float32 "float32"
@@ -42,6 +42,11 @@
   ([values [x y z]]
    (.tensor3d js/tf (clj->js values) (array x y z))))
 
+(defn buffer
+  "Creates an empty tf.TensorBuffer with the specified shape and dtype."
+  [shape]
+  (.buffer js/tf (clj->js shape)))
+
 (defn variable
   "Creates a new variable with the provided initial value."
   [initialValue]
@@ -81,14 +86,43 @@
 
 ;; Tensor
 
+(defn as1d
+  "Converts a tf.Tensor to a tf.Tensor1D."
+  [tensor]
+  (.as1D tensor))
+
+(defn as2d
+  "Converts a tf.Tensor to a tf.Tensor2D."
+  [tensor rows columns]
+  (.as2D tensor rows columns))
+
+(defn as3d
+  "Converts a tf.Tensor to a tf.Tensor3D."
+  [tensor rows columns depth]
+  (.as3D tensor rows columns depth))
+
 (defn data-sync
   "Synchronously downloads the values from the tf.Tensor. This blocks the UI thread until the values are
   ready, which can cause performance issues."
   [tensor]
   (array-seq (.dataSync tensor)))
 
-(deftf dispose)
 (deftf print)
+
+;; TensorBuffer
+
+(defn get-in [buffer locs]
+  (apply js-invoke buffer "get" locs))
+
+(defn assoc-in! [buffer locs value]
+  (apply js-invoke buffer "set" value locs)
+  buffer)
+
+(defn buffer->tensor
+  "Creates an immutable tf.Tensor object from the buffer."
+  [buffer]
+  (.toTensor buffer))
+
 
 ;; OPERATIONS
 
@@ -134,6 +168,8 @@
 
 ;; Reduction
 
+(deftf argMax)
+(deftf argMin)
 (deftf max)
 (deftf mean)
 (deftf min)
@@ -142,7 +178,11 @@
 
 ;;; Performance
 
+(deftf dispose)
 (deftf memory)
 
 (defn next-frame []
   (js/tf.nextFrame))
+
+(defn set-backend [backend-type]
+  (js/tf.setBackend backend-type))

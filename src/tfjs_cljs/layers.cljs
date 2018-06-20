@@ -5,6 +5,11 @@
 
 ;; Basic
 
+(defn activation
+  "Applies an activation function to an output."
+  [activation-fn]
+  (.activation js/tf.layers (clj->js {:activation activation-fn})))
+
 (defn dense
   "Creates a dense (fully connected) layer."
   [config]
@@ -18,6 +23,11 @@
   ([] (flatten {}))
   ([config]
    (.flatten js/tf.layers (clj->js config))))
+
+(defn repeat-vector
+  "Repeats the input n times in a new dimension."
+  [config]
+  (.repeatVector js/tf.layers (clj->js config)))
 
 
 ;; Convolutional
@@ -53,3 +63,16 @@
   "Fully-connected RNN where the output is to be fed back to input."
   [config]
   (.simpleRNN js/tf.layers (clj->js config)))
+
+
+;; Wrapper
+
+(defn time-distributed
+  "This wrapper applies a layer to every temporal slice of an input.
+
+  The input should be at least 3D, and the dimension of the index 1 will be considered to be
+  the temporal dimension."
+  ([layer]
+    (.timeDistributed js/tf.layers (clj->js {:layer layer})))
+  ([layer input-shape]
+    (.timeDistributed js/tf.layers (clj->js {:layer layer :inputShape input-shape}))))
