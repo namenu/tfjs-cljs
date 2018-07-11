@@ -50,12 +50,28 @@
 (defn variable
   "Creates a new variable with the provided initial value."
   [initialValue]
-  (.variable js.tf initialValue))
+  (.variable js/tf initialValue))
+
+(defn one-hot
+  "Creates a one-hot tf.Tensor. The locations represented by indices take value onValue
+  (defaults to 1), while all other locations take value offValue (defaults to 0)."
+  [indicies depth]
+  (if (sequential? indicies)
+    (let [i-tensor  (tensor1d indicies "int32")
+          oh-tensor (.oneHot js/tf i-tensor depth)]
+      (.dispose i-tensor)
+      oh-tensor)
+    (.oneHot js/tf indicies depth)))
 
 (defn ones
   "Creates a tf.Tensor with all elements set to 1."
   [shape]
   (.ones js/tf (clj->js shape)))
+
+(defn print
+  "Prints information about the tf.Tensor including its data."
+  [x]
+  (.print js/tf x))
 
 (defn random-normal
   "Creates a tf.Tensor with values sampled from a normal distribution."
