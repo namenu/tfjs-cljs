@@ -1,5 +1,6 @@
 (ns tfjs-cljs.train
-  (:require [cljsjs.tfjs]))
+  (:require [cljsjs.tfjs]
+            [tfjs-cljs.macros :refer-macros [defconst]]))
 
 (defn sgd
   "Constructs a tf.SGDOptimizer that uses stochastic gradient descent."
@@ -30,5 +31,4 @@
   [optimizer f]
   (.minimize optimizer f))
 
-
-(def losses (js->clj js/tf.losses :keywordize-keys true))
+(defconst losses [:absolute-difference :compute-weighted-loss :cosine-distance :hinge-loss :huber-loss :log-loss :mean-squared-error :softmax-cross-entropy])

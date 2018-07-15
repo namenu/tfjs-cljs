@@ -1,7 +1,7 @@
 (ns tfjs-cljs.core
-  (:require-macros [tfjs-cljs.macros :refer [deftf]])
   (:refer-clojure :exclude [print max min get-in])
-  (:require [cljsjs.tfjs]))
+  (:require [cljsjs.tfjs]
+            [tfjs-cljs.macros :refer-macros [deftf defconst]]))
 
 (def ^:private dtypes {:float32 "float32"
                        :int32 "int32"
@@ -123,8 +123,6 @@
   [tensor]
   (array-seq (.dataSync tensor)))
 
-(deftf print)
-
 ;; TensorBuffer
 
 (defn get-in [buffer locs]
@@ -192,7 +190,7 @@
 (deftf sum)
 
 
-;;; Performance
+;; Performance
 
 (deftf dispose)
 (deftf memory)
@@ -202,3 +200,7 @@
 
 (defn set-backend [backend-type]
   (js/tf.setBackend backend-type))
+
+;; Metrics
+
+(defconst metrics [:binary-accuracy :binary-crossentropy :categorical-accuracy :categorical-crossentropy :cosine-proximity :mean-squared-error])
