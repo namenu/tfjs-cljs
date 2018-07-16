@@ -1,12 +1,15 @@
 (ns tfjs-cljs.macros)
 
-(defmacro deftf [name]
-  (let [params (gensym)]
-    `(defn ~name [~params]
-       (. js/tf ~name ~params))))
+(defn ->camelCase [s]
+  (let [s (clojure.string/split s #"-")]
+    (transduce (map clojure.string/capitalize) str (first s) (next s))))
 
-(defmacro defconst
-  [name consts]
-  `(def ~name
-     (zipmap ~consts
-             (map (comp tfjs-cljs.macros/->camelCase name) ~consts))))
+(defmacro deftf [name]
+  (let [params (gensym)
+        cname  (symbol (->camelCase (str name)))]
+    `(defn ~name [~params]
+       (. js/tf ~cname ~params))))
+
+(defmacro defconst [n keywords]
+  (let [const-map (mapv (comp ->camelCase name) keywords)]
+    `(def ~n (zipmap ~keywords ~const-map))))

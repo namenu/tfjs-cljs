@@ -182,8 +182,8 @@
 
 ;; Reduction
 
-(deftf argMax)
-(deftf argMin)
+(deftf arg-max)
+(deftf arg-min)
 (deftf max)
 (deftf mean)
 (deftf min)
