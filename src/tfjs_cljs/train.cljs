@@ -1,6 +1,6 @@
 (ns tfjs-cljs.train
-  (:require [cljsjs.tfjs]
-            [tfjs-cljs.macros :refer-macros [defconst]]))
+  (:require [cljsjs.tfjs])
+  (:require-macros [tfjs-cljs.macros :refer [defconst]]))
 
 (defn sgd
   "Constructs a tf.SGDOptimizer that uses stochastic gradient descent."

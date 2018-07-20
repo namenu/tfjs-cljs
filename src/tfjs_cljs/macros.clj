@@ -6,9 +6,9 @@
 
 (defmacro deftf [name]
   (let [params (gensym)
-        cname  (symbol (->camelCase (str name)))]
-    `(defn ~name [~params]
-       (. js/tf ~cname ~params))))
+        cname  (symbol "js" (->camelCase (str "tf." name)))]
+    `(defn ~name [& ~params]
+       (apply ~cname ~params))))
 
 (defmacro defconst [n keywords]
   (let [const-map (mapv (comp ->camelCase name) keywords)]

@@ -1,7 +1,7 @@
 (ns tfjs-cljs.core
   (:refer-clojure :exclude [print max min get-in])
-  (:require [cljsjs.tfjs]
-            [tfjs-cljs.macros :refer-macros [deftf defconst]]))
+  (:require [cljsjs.tfjs])
+  (:require-macros [tfjs-cljs.macros :refer [deftf defconst]]))
 
 (def ^:private dtypes {:float32 "float32"
                        :int32 "int32"
