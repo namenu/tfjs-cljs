@@ -5,7 +5,7 @@
   `(def ~name (.variable js/tf ~value)))
 
 (defmacro with-tidy
-  "Note: Returning tensor might leak your memory."
+  "Disposes all Tensors implicitly which are generated while executing body. Sugar of Tf.tidy()."
   [& body]
   `(.tidy js/tf (fn [] ~@body)))
 

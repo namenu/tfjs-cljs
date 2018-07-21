@@ -7,6 +7,9 @@
                        :int32 "int32"
                        :bool "bool"})
 
+
+;; Tensors
+
 (defn tensor
   "Creates a tf.Tensor with the provided values, shape and dtype."
   ([values]

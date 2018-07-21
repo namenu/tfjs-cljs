@@ -1,4 +1,4 @@
-(defproject namenu/tfjs-cljs "0.1.0-SNAPSHOT"
+(defproject namenu/tfjs-cljs "0.1.1-SNAPSHOT"
   :description "ClojureScript wrapper for TensorFlow.js"
   :url "http://github.com/namenu/tfjs-cljs"
   :license {:name "Eclipse Public License"
