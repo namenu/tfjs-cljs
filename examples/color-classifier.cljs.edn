@@ -1,0 +1,5 @@
+^{:open-url "http://localhost:9500/color-classifier/index.html"}
+{:main examples.color-classifier
+ :asset-path "js/compiled/out"
+ :output-to "resources/public/color-classifier/js/compiled/examples.js"
+ :output-dir "resources/public/color-classifier/js/compiled/out"}

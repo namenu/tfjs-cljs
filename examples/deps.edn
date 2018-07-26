@@ -1,0 +1,14 @@
+{:deps {org.clojure/clojure {:mvn/version "1.9.0"}
+        org.clojure/clojurescript {:mvn/version "1.10.339"}
+        org.clojure/core.async {:mvn/version "0.4.474"}
+        reagent {:mvn/version "0.8.1"}
+        cljsjs/p5 {:mvn/version "0.5.8-4"}
+        namenu/tfjs-cljs {:mvn/version "0.1.1-SNAPSHOT"}
+
+        com.bhauman/figwheel-main {:mvn/version "0.1.4"}
+        com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
+
+        }
+
+ :paths ["src" "resources"]
+ }

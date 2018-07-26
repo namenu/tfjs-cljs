@@ -1,0 +1,5 @@
+^{:open-url "http://localhost:9500/polynomial-regression-core/index.html"}
+{:main examples.polynomial-regression-core
+ :asset-path "js/compiled/out"
+ :output-to "resources/public/polynomial-regression-core/js/compiled/examples.js"
+ :output-dir "resources/public/polynomial-regression-core/js/compiled/out"}
