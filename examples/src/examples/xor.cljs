@@ -2,8 +2,8 @@
   (:require [cljsjs.p5]
             [examples.p5 :as q]
             [tfjs-cljs.core :as tf :refer-macros [with-tidy with-fit-history]]
-            [tfjs-cljs.models :as models]
             [tfjs-cljs.layers :as layers]
+            [tfjs-cljs.layers.models :as models]
             [tfjs-cljs.core.train :as train]))
 
 

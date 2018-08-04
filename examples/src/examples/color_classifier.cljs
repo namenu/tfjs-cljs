@@ -5,8 +5,8 @@
   (:require [cljsjs.p5]
             [reagent.core :as r]
             [tfjs-cljs.core :as tf :refer-macros [with-tidy with-fit-history]]
-            [tfjs-cljs.models :as models]
             [tfjs-cljs.core.train :as train]
+            [tfjs-cljs.layers.models :as models]
             [tfjs-cljs.layers :as layers]))
 
 (def config {:apiKey            "AIzaSyDPekCKX4ee6h9NVR2lEITGAM0XIHn-c7c",

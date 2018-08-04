@@ -87,22 +87,22 @@
 ;; Classes
 ;; tf.Tensor
 
-(defn ->scalar
+(defn as-scalar
   "Converts a size-1 tf.Tensor to a tf.Scalar."
   [tensor]
   (.asScalar tensor))
 
-(defn ->1d
+(defn as1d
   "Converts a tf.Tensor to a tf.Tensor1D."
   [tensor]
   (.as1D tensor))
 
-(defn ->2d
+(defn as2d
   "Converts a tf.Tensor to a tf.Tensor2D."
   [tensor rows columns]
   (.as2D tensor rows columns))
 
-(defn ->3d
+(defn as3d
   "Converts a tf.Tensor to a tf.Tensor3D."
   [tensor rows columns depth]
   (.as3D tensor rows columns depth))
@@ -112,6 +112,11 @@
   ready, which can cause performance issues."
   [tensor]
   (array-seq (.dataSync tensor)))
+
+(defn dispose
+  "Disposes tf.Tensor from memory."
+  [tensor]
+  (.dispose tensor))
 
 ;; TensorBuffer
 
@@ -208,7 +213,7 @@
 
 ;;; PERFORMANCE
 
-(defn memory
+(defn memory []
   (js->clj (js/tf.memory) :keywordize-keys true))
 
 (defn next-frame []

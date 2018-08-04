@@ -11,6 +11,6 @@
 
 (defmacro with-fit-history
   [args name & body]
-  `(.then (tfjs-cljs.models/fit ~@args)
+  `(.then (tfjs-cljs.layers.models/fit ~@args)
      #(let [~name (cljs.core/js->clj (.-history %) :keywordize-keys true)]
         ~@body)))
