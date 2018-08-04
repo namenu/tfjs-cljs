@@ -1,6 +1,6 @@
 (ns examples.polynomial-regression-core
   (:require [tfjs-cljs.core :as t :refer-macros [defvar with-tidy]]
-            [tfjs-cljs.train :as train]
+            [tfjs-cljs.core.train :as train]
             [examples.p5 :as p5]))
 
 (defonce vars

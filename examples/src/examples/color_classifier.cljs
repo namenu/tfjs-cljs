@@ -6,7 +6,7 @@
             [reagent.core :as r]
             [tfjs-cljs.core :as tf :refer-macros [with-tidy with-fit-history]]
             [tfjs-cljs.models :as models]
-            [tfjs-cljs.train :as train]
+            [tfjs-cljs.core.train :as train]
             [tfjs-cljs.layers :as layers]))
 
 (def config {:apiKey            "AIzaSyDPekCKX4ee6h9NVR2lEITGAM0XIHn-c7c",

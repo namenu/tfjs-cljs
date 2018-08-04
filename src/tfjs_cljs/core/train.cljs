@@ -1,6 +1,10 @@
-(ns tfjs-cljs.train
+(ns tfjs-cljs.core.train
   (:require [cljsjs.tfjs])
   (:require-macros [tfjs-cljs.macros :refer [defconst]]))
+
+;;; TRAINING
+
+;; Optimizers
 
 (defn sgd
   "Constructs a tf.SGDOptimizer that uses stochastic gradient descent."
@@ -24,11 +28,16 @@
   [& args]
   (apply js/tf.train.adam args))
 
+;; tf.train.Optimizer
+
 (defn minimize
   "Executes f() and minimizes the scalar output of f() by computing gradients of y with respect to the
   list of trainable variables provided by varList. If no list is provided, it defaults to all trainable
   variables."
   [optimizer f]
   (.minimize optimizer f))
+
+
+;; TODO: move to layers?
 
 (defconst losses [:absolute-difference :compute-weighted-loss :cosine-distance :hinge-loss :huber-loss :log-loss :mean-squared-error :softmax-cross-entropy])

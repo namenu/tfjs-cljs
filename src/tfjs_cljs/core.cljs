@@ -8,7 +8,9 @@
                        :bool "bool"})
 
 
-;; Tensors
+;;; TENSORS
+
+;; Creation
 
 (defn tensor
   "Creates a tf.Tensor with the provided values, shape and dtype."
@@ -50,11 +52,6 @@
   [shape]
   (.buffer js/tf (clj->js shape)))
 
-(defn variable
-  "Creates a new variable with the provided initial value."
-  [initialValue]
-  (.variable js/tf initialValue))
-
 (defn one-hot
   "Creates a one-hot tf.Tensor. The locations represented by indices take value onValue
   (defaults to 1), while all other locations take value offValue (defaults to 0)."
@@ -76,17 +73,10 @@
   [x]
   (.print js/tf x))
 
-(defn random-normal
-  "Creates a tf.Tensor with values sampled from a normal distribution."
-  ([shape mean std-dev]
-    (.randomNormal js/tf (clj->js shape) mean std-dev)))
-
-(defn random-uniform
-  "Creates a tf.Tensor with values sampled from a uniform distribution."
-  ([shape] (random-uniform shape 0 1))
-  ([shape minval] (random-uniform shape minval 1))
-  ([shape minval maxval]
-    (.randomUniform js/tf (clj->js shape) minval maxval)))
+(defn variable
+  "Creates a new variable with the provided initial value."
+  [initialValue]
+  (.variable js/tf initialValue))
 
 (defn zeros
   "Creates a tf.Tensor with all elements set to 0."
@@ -94,28 +84,25 @@
   (.zeros js/tf (clj->js shape)))
 
 
-(defn reshape
-  "Reshapes a tf.Tensor to a given shape.
+;; Classes
+;; tf.Tensor
 
-  Given a input tensor, returns a new tensor with the same values as the input tensor with
-  shape shape."
-  [x shape]
-  (.reshape js/tf x (clj->js shape)))
+(defn ->scalar
+  "Converts a size-1 tf.Tensor to a tf.Scalar."
+  [tensor]
+  (.asScalar tensor))
 
-
-;; Tensor
-
-(defn as1d
+(defn ->1d
   "Converts a tf.Tensor to a tf.Tensor1D."
   [tensor]
   (.as1D tensor))
 
-(defn as2d
+(defn ->2d
   "Converts a tf.Tensor to a tf.Tensor2D."
   [tensor rows columns]
   (.as2D tensor rows columns))
 
-(defn as3d
+(defn ->3d
   "Converts a tf.Tensor to a tf.Tensor3D."
   [tensor rows columns depth]
   (.as3D tensor rows columns depth))
@@ -141,7 +128,33 @@
   (.toTensor buffer))
 
 
-;; OPERATIONS
+;; Transformations
+
+(defn reshape
+  "Reshapes a tf.Tensor to a given shape.
+
+  Given a input tensor, returns a new tensor with the same values as the input tensor with
+  shape shape."
+  [x shape]
+  (.reshape js/tf x (clj->js shape)))
+
+
+;; Random
+
+(defn random-normal
+  "Creates a tf.Tensor with values sampled from a normal distribution."
+  ([shape mean std-dev]
+    (.randomNormal js/tf (clj->js shape) mean std-dev)))
+
+(defn random-uniform
+  "Creates a tf.Tensor with values sampled from a uniform distribution."
+  ([shape] (random-uniform shape 0 1))
+  ([shape minval] (random-uniform shape minval 1))
+  ([shape minval maxval]
+    (.randomUniform js/tf (clj->js shape) minval maxval)))
+
+
+;;; OPERATIONS
 
 ;; Arithmetic
 
@@ -193,17 +206,15 @@
 (deftf sum)
 
 
-;; Performance
+;;; PERFORMANCE
 
-(deftf dispose)
-(deftf memory)
+(defn memory
+  (js->clj (js/tf.memory) :keywordize-keys true))
 
 (defn next-frame []
   (js/tf.nextFrame))
 
-(defn set-backend [backend-type]
-  (js/tf.setBackend backend-type))
 
-;; Metrics
+;;; METRICS
 
 (defconst metrics [:binary-accuracy :binary-crossentropy :categorical-accuracy :categorical-crossentropy :cosine-proximity :mean-squared-error])

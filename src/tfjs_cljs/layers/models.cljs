@@ -1,4 +1,4 @@
-(ns tfjs-cljs.models
+(ns tfjs-cljs.layers.models
   (:require [cljsjs.tfjs]))
 
 (defn sequential
@@ -9,6 +9,11 @@
    (.sequential js/tf))
   ([config]
    (.sequential js/tf (clj->js config))))
+
+(defn summary
+  "Print a text summray of the Sequential model's layers."
+  [model]
+  (.summary model))
 
 (defn add
   "Adds a layer instance on top of the layer stack.
