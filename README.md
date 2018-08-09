@@ -48,9 +48,6 @@ For memory management, `with-tidy` macro might come in handy.
 ```
 
 
-## License
+## Should I use it?
 
-Copyright © 2018 Hyunwoo Nam
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+No. This library only contains a subset of `TensorFlow.js` to the extent of my knowledge.
