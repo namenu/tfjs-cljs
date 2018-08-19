@@ -19,7 +19,6 @@
   "Flattens the input. Does not affect the batch size.
 
   A Flatten layer flattens each batch in its inputs to 1D (making the output 2D)."
-
   ([] (flatten {}))
   ([config]
    (.flatten js/tf.layers (clj->js config))))

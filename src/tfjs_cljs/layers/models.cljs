@@ -1,4 +1,4 @@
-(ns tfjs-cljs.models
+(ns tfjs-cljs.layers.models
   (:require [cljsjs.tfjs]))
 
 (defn sequential
@@ -10,6 +10,12 @@
   ([config]
    (.sequential js/tf (clj->js config))))
 
+(defn summary
+  "Print a text summray of the Sequential model's layers."
+  [model]
+  (.summary model)
+  model)
+
 (defn add
   "Adds a layer instance on top of the layer stack.
 
@@ -17,6 +23,16 @@
   [model layer]
   (.add model layer)
   model)
+
+(defn
+  ^{:category "helper"}
+  stack
+  "Stacks layer instances on top of the layer stack."
+  [model & layers]
+  (loop [m model, [l & ls] layers]
+    (if l
+      (recur (add m l) ls)
+      m)))
 
 (defn compile
   "Configures and prepares the model for training and evaluation. Compiling outfits
