@@ -1,5 +1,5 @@
 (ns tfjs-cljs.core
-  (:refer-clojure :exclude [print max min get-in])
+  (:refer-clojure :exclude [print max min get-in flatten])
   (:require [cljsjs.tfjs])
   (:require-macros [tfjs-cljs.macros :refer [deftf defconst]]))
 
@@ -87,6 +87,11 @@
 ;; Classes
 ;; tf.Tensor
 
+(defn flatten
+  "Flatten a Tensor to a 1D array."
+  [tensor]
+  (.flatten tensor))
+
 (defn as-scalar
   "Converts a size-1 tf.Tensor to a tf.Scalar."
   [tensor]
@@ -143,6 +148,21 @@
   [x shape]
   (.reshape js/tf x (clj->js shape)))
 
+
+;; Slicing and Joining
+
+(defn slice
+  "Extracts a slice from a tf.Tensor starting at coordinates begin and is of size size."
+  ([x begin]
+   (.slice js/tf x (clj->js begin)))
+  ([x begin size]
+   (.slice js/tf x (clj->js begin) (clj->js size))))
+
+(defn split
+  "Splits a tf.Tensor into sub tensors."
+  ([x num-splits] (split x num-splits 0))
+  ([x num-splits axis]
+   (.split js/tf x (clj->js num-splits) axis)))
 
 ;; Random
 
