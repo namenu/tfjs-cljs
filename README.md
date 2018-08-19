@@ -6,9 +6,7 @@ A ClojureScript wrapper library for [TensorFlow.js](https://js.tensorflow.org/).
 
 Add a dependency to your `project.clj`.
 
-```
-[namenu/tfjs-cljs "0.1.0-SNAPSHOT"]
-```
+[![Clojars Project](https://img.shields.io/clojars/v/namenu/tfjs-cljs.svg)](https://clojars.org/namenu/tfjs-cljs)
 
 ## Example
 
