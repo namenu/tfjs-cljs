@@ -1,0 +1,32 @@
+#content {
+  padding: 15px;
+}
+canvas {
+  width: 200px;
+}
+.prediction-canvas{
+  width: 100px;
+}
+.pred {
+  font-size: 20px;
+  line-height: 25px;
+  width: 100px;
+}
+.pred-correct {
+  background-color: #00cf00;
+}
+.pred-incorrect {
+  background-color: red;
+}
+.pred-container {
+  display: inline-block;
+  width: 100px;
+  margin: 10px;
+}
+#lossCanvas > div, #accuracyCanvas > div {
+  display: none;
+}
+.canvases {
+  display: inline-block;
+  width: 460px;
+}

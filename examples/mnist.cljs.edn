@@ -1,0 +1,5 @@
+^{:open-url "http://localhost:9500/mnist/index.html"}
+{:main examples.mnist.main
+ :asset-path "js/compiled/out"
+ :output-to "resources/public/mnist/js/compiled/examples.js"
+ :output-dir "resources/public/mnist/js/compiled/out"}

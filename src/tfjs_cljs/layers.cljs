@@ -15,6 +15,14 @@
   [config]
   (.dense js/tf.layers (clj->js config)))
 
+(defn dropout
+  "Applies dropout to the input.
+  
+  Dropout consists in randomly setting a fraction rate of input units to 0 at each update during training time,
+  which helps prevent overfitting."
+  [config]
+  (.dropout js/tf.layers (clj->js config)))
+
 (defn flatten
   "Flattens the input. Does not affect the batch size.
 
