@@ -1,5 +1,6 @@
 (ns tfjs-cljs.layers.models
-  (:require [cljsjs.tfjs]))
+  (:require [cljsjs.tfjs]
+            [cljs.core.async :refer [chan put!]]))
 
 (defn sequential
   "Creates a tf.Sequential model. A sequential model is any model where the outputs of one
@@ -9,6 +10,14 @@
    (.sequential js/tf))
   ([config]
    (.sequential js/tf (clj->js config))))
+
+(defn load-model
+  "Load a model, including its topology and optionally weights."
+  [path]
+  (let [c (chan)]
+    (.then (.loadModel js/tf path)
+           #(put! c %))
+    c))
 
 (defn summary
   "Print a text summray of the Sequential model's layers."
