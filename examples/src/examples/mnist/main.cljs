@@ -4,7 +4,7 @@
             [examples.mnist.ui :as ui]
             [examples.mnist.data :as data]
             [tfjs-cljs.core.train :as train]
-            [tfjs-cljs.core :as tf :refer-macros [with-tidy with-fit-history]]
+            [tfjs-cljs.core :as tf :refer-macros [with-tidy]]
             [tfjs-cljs.layers :as layers]
             [tfjs-cljs.layers.models :as models]))
 

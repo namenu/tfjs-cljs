@@ -183,8 +183,12 @@
 
 (defn random-normal
   "Creates a tf.Tensor with values sampled from a normal distribution."
+  ([shape]
+   (random-normal shape 0 1))
+  ([shape mean]
+   (random-normal shape mean))
   ([shape mean std-dev]
-    (.randomNormal js/tf (clj->js shape) mean std-dev)))
+   (.randomNormal js/tf (clj->js shape) mean std-dev)))
 
 (defn random-uniform
   "Creates a tf.Tensor with values sampled from a uniform distribution."
