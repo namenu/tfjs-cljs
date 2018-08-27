@@ -24,24 +24,7 @@ Clojure idiomatic rewrite of linear regression example from [#getting-started](h
          #(tf/print (models/predict model (tf/tensor2d [5] [1 1])))))
 ```
 
-See more (examples)[examples].
-
-```clojure
-(def model
-  (-> (models/sequential)
-      (models/stack (layers/dense {:units 100 :activation "relu" :inputShape [10]})
-                    (layers/dense {:units 1 :activation "linear"}))
-      (models/compile {:optimizer "sgd" :loss "meanSquaredError"})))
-
-(let [xs     (tf/random-normal [100 10])
-      ys     (tf/random-normal [100 1])
-      config {:epochs    100
-              :callbacks {:onEpochEnd
-                          (fn [epoch log]
-                            (let [loss (aget log "loss")]
-                              (.log js/console (str "Epoch" epoch ": loss = " loss))))}}]
-  (models/fit model xs ys config))
-```
+- [mnist](examples/src/examples/mnist)
 
 
 ## Should I use it?
