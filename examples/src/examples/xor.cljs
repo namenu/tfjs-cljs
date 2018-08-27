@@ -30,38 +30,33 @@
 
 (defn update! [model]
   (let [config {:shuffle true
-                #_#_:epochs  10}]
+                :epochs  1}]
     (with-fit-history [model train-xs train-ys config] history
       (let [loss (first (:loss history))]
         (console.log loss))))
   model)
 
 (defn draw! [model]
+  (with-tidy [resolution 40
+              cols (/ js/width resolution)
+              rows (/ js/height resolution)
 
-  (with-tidy
-    (let [resolution 40
-          cols       (/ js/width resolution)
-          rows       (/ js/height resolution)
-
-          inputs     (for [x (range cols) y (range rows)]
+              inputs (for [x (range cols) y (range rows)]
                        [(/ x cols) (/ y cols)])
 
-          xs         (tf/tensor2d inputs)
-          ys         (models/predict model xs)
+              xs (tf/tensor2d inputs)
+              ys (models/predict model xs)
 
-          vs         (tf/data-sync ys)]
-
-      (doseq [[[x y] v] (zipmap (for [x (range cols) y (range rows)]
-                                  [(* x resolution) (* y resolution)])
-                          vs)
-              :let [br (* v 255)]]
-        (js/fill br)
-        (js/rect x y resolution resolution)
-        (js/fill (- 255 br))
-        (js/textAlign js/CENTER js/CENTER)
-        (js/text (js/nf v 1 2) (+ x (/ resolution 2)) (+ y (/ resolution 2))))
-
-      )))
+              vs (tf/data-sync ys)]
+    (doseq [[[x y] v] (zipmap (for [x (range cols) y (range rows)]
+                                [(* x resolution) (* y resolution)])
+                              vs)
+            :let [br (* v 255)]]
+      (js/fill br)
+      (js/rect x y resolution resolution)
+      (js/fill (- 255 br))
+      (js/textAlign js/CENTER js/CENTER)
+      (js/text (js/nf v 1 2) (+ x (/ resolution 2)) (+ y (/ resolution 2))))))
 
 (defonce state (atom {}))
 

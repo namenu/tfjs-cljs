@@ -103,22 +103,19 @@
   (ui/set-status! "Testing...")
   (ui/reset-predictions)
 
-  (let [{:keys [xs ys]} (data/->tensors PREDICT_SIZE 0)]
-    (with-tidy
-      (let [output      (models/predict model xs)
+  (with-tidy [{:keys [xs ys]} (data/->tensors PREDICT_SIZE 0)
+              output (models/predict model xs)
 
-            axis        1
-            labels      (tf/data-sync (tf/arg-max ys axis))
-            predictions (tf/data-sync (tf/arg-max output axis))
-            ]
+              axis 1
+              labels (tf/data-sync (tf/arg-max ys axis))
+              predictions (tf/data-sync (tf/arg-max output axis))]
+    (dotimes [i PREDICT_SIZE]
+      (let [image (tf/slice xs [i 0] [1 (aget xs "shape" 1)])
+            data  (tf/data-sync (tf/flatten image))
 
-        (dotimes [i PREDICT_SIZE]
-          (let [image (tf/slice xs [i 0] [1 (aget xs "shape" 1)])
-                data  (tf/data-sync (tf/flatten image))
-
-                label (nth labels i)
-                pred  (nth predictions i)]
-            (ui/show-test-results data label pred)))))))
+            label (nth labels i)
+            pred  (nth predictions i)]
+        (ui/show-test-results data label pred)))))
 
 (defn load-data []
   (ui/set-status! "Loading...")

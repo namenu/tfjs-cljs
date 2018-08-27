@@ -64,3 +64,18 @@
    (.fit model x y))
   ([model x y config]
    (.fit model x y (clj->js config))))
+
+(defn save
+  "Save the configuration and/or weights of the Model."
+  [model url]
+  (let [c (chan)]
+    (.then (.save model url)
+           #(put! c %))
+    c))
+
+(defn get-layer
+  "Retrieves a layer based on either its name (unique) or index.
+  Indices are based on order of horizontal graph traversal (bottom-up).
+  If both name and index are specified, index takes precedence."
+  ([model name] (.getLayer model name))
+  ([model name index] (.getLayer model name index)))

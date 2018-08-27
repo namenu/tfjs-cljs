@@ -56,6 +56,14 @@
   (.conv2d js/tf.layers (clj->js config)))
 
 
+;; Normalization
+
+(defn batch-normalization
+  "Batch normalization layer (Ioffe and Szegedy, 2014)."
+  [config]
+  (.batchNormalization js/tf.layers (clj->js config)))
+
+
 ;; Pooling
 
 (defn max-pooling-2d

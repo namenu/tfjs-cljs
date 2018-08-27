@@ -122,14 +122,13 @@
   (let [{:keys [r g b]} @test-color]
     (.background sketch r g b))
 
-  (with-tidy
-    (let [xs (tf/tensor2d [(record->rgb @test-color)])
-          results (models/predict model xs)
-          index (-> results
-                  (tf/arg-max 1)
-                  (tf/data-sync)
-                  (first))]
-      (reset! prediction (nth colors index)))))
+  (with-tidy [xs (tf/tensor2d [(record->rgb @test-color)])
+              results (models/predict model xs)
+              index (-> results
+                        (tf/arg-max 1)
+                        (tf/data-sync)
+                        (first))]
+    (reset! prediction (nth colors index))))
 
 (defn ^export run []
   (r/render [app]
@@ -140,7 +139,6 @@
   (let [s (fn [sketch]
             (aset sketch "setup" #(setup sketch))
             (aset sketch "draw" #(draw sketch)))]
-    (js/p5. s "test-color"))
-  )
+    (js/p5. s "test-color")))
 
 (run)

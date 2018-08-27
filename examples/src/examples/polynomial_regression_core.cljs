@@ -14,15 +14,14 @@
 (defonce optimizer (train/sgd learning-rate))
 
 (defn predict [x]
-  (with-tidy
-    (let [ax3 (t/mul (:a @vars) (t/pow x 3) )
-          bx2 (t/mul (:b @vars) (t/pow x 2) )
-          cx  (t/mul (:c @vars) x)
-          d   (:d @vars)]
-      (-> ax3
-          (t/add bx2)
-          (t/add cx)
-          (t/add d)))))
+  (with-tidy [ax3 (t/mul (:a @vars) (t/pow x 3))
+              bx2 (t/mul (:b @vars) (t/pow x 2))
+              cx (t/mul (:c @vars) x)
+              d (:d @vars)]
+    (-> ax3
+        (t/add bx2)
+        (t/add cx)
+                 (t/add d))))
 
 (defn loss [predictions labels]
   (let [mean-square-error (-> (t/sub predictions labels)
@@ -34,25 +33,23 @@
   ([num-points coeff]
    (generate-data num-points coeff 0.04))
   ([num-points coeff sigma]
-   (with-tidy
-     (let [[a b c d] (map t/scalar coeff)
+   (with-tidy [[a b c d] (map t/scalar coeff)
 
-           xs (t/random-uniform [num-points] -1 1)
-           ys (-> (t/mul a (t/pow xs 3))
-                  (t/add (t/mul b (t/square xs)))
-                  (t/add (t/mul c xs))
-                  (t/add d)
-                  (t/add (t/random-normal [num-points] 0 sigma)))
-           ymin (t/min ys)
-           ymax (t/max ys)
-           yrange (t/sub ymax ymin)
+               xs (t/random-uniform [num-points] -1 1)
+               ys (-> (t/mul a (t/pow xs 3))
+                      (t/add (t/mul b (t/square xs)))
+                      (t/add (t/mul c xs))
+                      (t/add d)
+                      (t/add (t/random-normal [num-points] 0 sigma)))
+               ymin (t/min ys)
+               ymax (t/max ys)
+               yrange (t/sub ymax ymin)
 
-           ys-normalized (-> ys
-                             (t/sub ymin)
-                             (t/div yrange))
-           ]
-       {:xs xs
-        :ys ys-normalized}))))
+               ys-normalized (-> ys
+                                 (t/sub ymin)
+                                 (t/div yrange))]
+     {:xs xs
+      :ys ys-normalized})))
 
 (defn setup! []
   (js/createCanvas 400 400)

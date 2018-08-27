@@ -1,6 +1,7 @@
 (ns tfjs-cljs.core
-  (:refer-clojure :exclude [print max min get-in flatten])
-  (:require [cljsjs.tfjs])
+  (:refer-clojure :exclude [print max min get-in flatten keep])
+  (:require [cljsjs.tfjs]
+            [cljs.core.async :refer [chan put!]])
   (:require-macros [tfjs-cljs.macros :refer [deftf defconst]]))
 
 (def ^:private dtypes {:float32 "float32"
@@ -51,6 +52,16 @@
   "Creates an empty tf.TensorBuffer with the specified shape and dtype."
   [shape]
   (.buffer js/tf (clj->js shape)))
+
+(defn from-pixels
+  "Create a tf.Tensor from an image."
+  [pixels]
+  (.fromPixels js/tf pixels))
+
+(defn linspace
+  "Return an evenly spaced sequence of numbers over the given interval."
+  [start stop num]
+  (.linspace js/tf start stop num))
 
 (defn one-hot
   "Creates a one-hot tf.Tensor. The locations represented by indices take value onValue
@@ -112,16 +123,20 @@
   [tensor rows columns depth]
   (.as3D tensor rows columns depth))
 
+(defn data
+  "Asynchronously downloads the values from the tf.Tensor. Returns a promise of TypedArray that
+  resolves when the computation has finished."
+  [tensor]
+  (let [c (chan)]
+    (.then (.data tensor)
+           #(put! c (array-seq %)))
+    c))
+
 (defn data-sync
   "Synchronously downloads the values from the tf.Tensor. This blocks the UI thread until the values are
   ready, which can cause performance issues."
   [tensor]
   (array-seq (.dataSync tensor)))
-
-(defn dispose
-  "Disposes tf.Tensor from memory."
-  [tensor]
-  (.dispose tensor))
 
 ;; TensorBuffer
 
@@ -232,6 +247,16 @@
 
 
 ;;; PERFORMANCE
+
+(defn dispose
+  "Disposes any tf.Tensors found within the provided object."
+  [container]
+  (js/tf.dispose container))
+
+(defn keep
+  "Keeps a tf.Tensor generated inside a tf.tidy() from being disposed automatically."
+  [result]
+  (js/tf.keep result))
 
 (defn memory []
   (js->clj (js/tf.memory) :keywordize-keys true))
