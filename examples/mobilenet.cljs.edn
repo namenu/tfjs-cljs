@@ -1,0 +1,5 @@
+^{:open-url "http://localhost:9500/mobilenet/index.html"}
+{:main         examples.mobilenet.main
+ :asset-path   "js/compiled/out"
+ :output-to    "resources/public/mobilenet/js/compiled/examples.js"
+ :output-dir   "resources/public/mobilenet/js/compiled/out"}

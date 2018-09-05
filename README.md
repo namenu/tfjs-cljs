@@ -25,6 +25,7 @@ Clojure idiomatic rewrite of linear regression example from [#getting-started](h
 ```
 
 - [mnist](examples/src/examples/mnist)
+- [mobilenet](examples/src/examples/mobilnet/main.cljs)
 
 
 ## Should I use it?

@@ -9,7 +9,7 @@
         ;namenu/tfjs-cljs {:mvn/version "0.2.0-SNAPSHOT"}
         namenu/tfjs-cljs {:local/root ".."}
 
-        com.bhauman/figwheel-main {:mvn/version "0.1.7"}
+        com.bhauman/figwheel-main {:mvn/version "0.1.8"}
         com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
         }
 
