@@ -129,7 +129,7 @@
   [:div
    [:button {:on-click load-data} "Load data"]
    [:button {:on-click #(do
-                          (swap! model create-model)
+                          (reset! model (create-model))
                           (train @model))} "Train!"]
    [:button {:on-click #(predict @model)} "Predict"]])
 

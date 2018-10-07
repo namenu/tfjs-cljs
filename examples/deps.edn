@@ -1,17 +1,14 @@
-{:deps {org.clojure/clojure {:mvn/version "1.9.0"}
-        org.clojure/clojurescript {:mvn/version "1.10.339"}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.339"}
         org.clojure/core.async {:mvn/version "0.4.474"}
         funcool/promesa {:mvn/version "1.9.0"}
         reagent {:mvn/version "0.8.1"}
         cljsjs/p5 {:mvn/version "0.5.8-4"}
         cljsjs/vega-embed {:mvn/version "3.1.1-0"}
 
-        ;namenu/tfjs-cljs {:mvn/version "0.2.0-SNAPSHOT"}
         namenu/tfjs-cljs {:local/root ".."}
 
-        com.bhauman/figwheel-main {:mvn/version "0.1.8"}
-        com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
-        }
+        com.bhauman/figwheel-main {:mvn/version "0.1.9"}
+        com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}
 
  :paths ["src" "resources"]
  }
